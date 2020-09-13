@@ -10,7 +10,7 @@ const Header = () => {
           </Link>
         </li>
         <li>
-          <Link href="/ocurrenceTypes">
+          <Link href="/occurrence_types">
             <a>Tipos de ocorrências</a>
           </Link>
         </li>

@@ -1,11 +1,11 @@
 import Item from "./Item";
 
-const ItemList = ({ occurrenceTypes }) => {
+const ItemList = ({ occurrenceTypes, reload }) => {
   return (
     <div>
       <h3>Tipos de ocorrência</h3>
-      {occurrenceTypes.map((name, index) => (
-        <Item key={index} name={name} />
+      {occurrenceTypes.map((item, index) => (
+        <Item key={index} item={item} />
       ))}
     </div>
   );

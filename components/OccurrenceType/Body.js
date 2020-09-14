@@ -8,15 +8,22 @@ export default function Body() {
   const [occurrenceTypes, setOcurrenceTypes] = useState([]);
   const router = useRouter();
 
+  useEffect(() => {
+    handleOccurrenceTypesUpdate();
+  }, []);
+
   async function fetchOccurrenceTypes() {
     const request = await api.get("/ocurrence_types/");
-    const names = await request.data.map((c) => c.name);
-    setOcurrenceTypes(names);
+    return await request.data.map((item) => {
+      return { id: item.id, name: item.name };
+    });
   }
 
-  useEffect(() => {
-    fetchOccurrenceTypes();
-  }, []);
+  async function handleOccurrenceTypesUpdate() {
+    const items = await fetchOccurrenceTypes();
+
+    setOcurrenceTypes(items);
+  }
 
   return (
     <Container>
@@ -30,7 +37,7 @@ export default function Body() {
           <Button
             variant="contained"
             color="primary"
-            onClick={(e) => router.push("/occurrence_types/create")}
+            onClick={() => router.push("/occurrence_types/create")}
           >
             Criar tipo de ocorrẽncia
           </Button>

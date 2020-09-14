@@ -5,7 +5,7 @@ const ItemList = ({ occurrenceTypes, reload }) => {
     <div>
       <h3>Tipos de ocorrência</h3>
       {occurrenceTypes.map((item, index) => (
-        <Item key={index} item={item} />
+        <Item key={index} item={item} reload={reload} />
       ))}
     </div>
   );

@@ -30,7 +30,10 @@ export default function Body() {
       <Grid container spacing={3}>
         <Grid item md={8}>
           <Grid item md={12}>
-            <ItemList occurrenceTypes={occurrenceTypes} />
+            <ItemList
+              occurrenceTypes={occurrenceTypes}
+              reload={handleOccurrenceTypesUpdate}
+            />
           </Grid>
         </Grid>
         <Grid item md={4}>

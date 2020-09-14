@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Item({ item }) {
+export default function Item({ item, reload }) {
   const [open, setOpen] = useState(false);
   const [newName, setNewName] = useState("");
   const [modalStyle] = useState(getModalStyle);
@@ -40,8 +40,8 @@ export default function Item({ item }) {
 
   const editOccurrenceType = async (id, name) => {
     const struct = { name };
-    const request = await api.patch(`/ocurrence_types/${id}`, struct);
-    console.log(request);
+
+    return await api.patch(`/ocurrence_types/${id}`, struct);
   };
 
   const handleOpen = () => {
@@ -63,6 +63,7 @@ export default function Item({ item }) {
             .then((response) => {
               if (response.status === 204) {
                 handleClose();
+                reload();
               }
             })
             .catch(() => {

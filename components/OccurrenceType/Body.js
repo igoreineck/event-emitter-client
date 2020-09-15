@@ -14,8 +14,12 @@ export default function Body() {
 
   async function fetchOccurrenceTypes() {
     const request = await api.get("/ocurrence_types/");
+
     return await request.data.map((item) => {
-      return { id: item.id, name: item.name };
+      return {
+        id: item.id,
+        name: item.name,
+      };
     });
   }
 

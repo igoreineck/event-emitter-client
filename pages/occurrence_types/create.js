@@ -1,20 +1,17 @@
-import Header from "../../components/Header";
-import { Container, Grid, TextField, Button } from "@material-ui/core";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { Container, Grid, TextField, Button } from "@material-ui/core";
+import Header from "../../components/Header";
 import api from "../../services/api";
 
-export default function Create() {
+const Create = () => {
   const [name, setName] = useState("");
   const router = useRouter();
 
   async function createOccurrenceType(name) {
-    const structure = {
+    return await api.post("/ocurrence_types/", {
       name,
-    };
-
-    const request = api.post("/ocurrence_types/", structure);
-    return await request;
+    });
   }
 
   return (
@@ -27,8 +24,12 @@ export default function Create() {
               e.preventDefault();
 
               createOccurrenceType(name)
-                .then((response) => console.log(response.status))
-                .catch((err) => console.log(err));
+                .then((response) => {
+                  if (response.status === 200) {
+                    router.push("/occurrence_types/");
+                  }
+                })
+                .catch((err) => alert("Erro"));
             }}
           >
             <TextField
@@ -66,4 +67,6 @@ export default function Create() {
       </Container>
     </>
   );
-}
+};
+
+export default Create;

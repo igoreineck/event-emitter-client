@@ -1,0 +1,16 @@
+import { Container } from "@material-ui/core";
+import Header from "../../components/Header";
+import OccurrenceListContainer from "../../components/Occurrence/OccurrenceListContainer";
+
+const Occurrences = () => {
+  return (
+    <>
+      <Header />
+      <Container>
+        <OccurrenceListContainer />
+      </Container>
+    </>
+  );
+};
+
+export default Occurrences;

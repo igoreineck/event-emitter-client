@@ -1,4 +1,4 @@
-import { Container, Grid } from "@material-ui/core";
+import { Container } from "@material-ui/core";
 import Header from "../components/Header";
 import OccurrenceListContainer from "../components/Occurrence/OccurrenceListContainer";
 
@@ -7,11 +7,7 @@ const Home = () => {
     <>
       <Header />
       <Container>
-        <Grid container>
-          <Grid item md>
-            <OccurrenceListContainer />
-          </Grid>
-        </Grid>
+        <OccurrenceListContainer />
       </Container>
     </>
   );

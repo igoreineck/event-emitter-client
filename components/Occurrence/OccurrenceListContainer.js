@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { Grid, Typography } from "@material-ui/core";
+import OccurrenceFilter from "./OccurrenceFilter";
 import api from "../../services/api";
 import socket from "../../services/socket";
 import styles from "./OccurrenceListContainer.module.scss";
 
 const OccurrenceListContainer = () => {
   const [occurrences, setOccurrences] = useState([]);
+  const [occurrenceTypes, setOccurrenceTypes] = useState();
 
   useEffect(() => {
     registerToSocket();
@@ -24,14 +26,20 @@ const OccurrenceListContainer = () => {
           setOccurrences(response.data);
         }
       })
-      .catch((err) => {
-        console.log(err);
-        alert("Deu ruim");
-      });
+      .catch((err) => alert("Deu ruim"));
+  };
+
+  const addOccurrenceTypes = (occurrenceTypes) => {
+    setOccurrenceTypes(occurrenceTypes);
   };
 
   return (
     <>
+      <OccurrenceFilter
+        occurrenceTypes={occurrenceTypes}
+        addOccurrenceTypes={addOccurrenceTypes}
+      />
+      <hr />
       <Typography variant="h5">Ocorrências</Typography>
       <div className={styles.occurrenceBody}>
         <Grid container>

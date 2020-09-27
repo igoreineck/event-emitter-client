@@ -1,13 +1,35 @@
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
 import Item from "./Item";
 
-const ItemList = ({ occurrenceTypes, reload }) => {
+const ItemList = ({ occurrenceTypes, updateOccurrenceTypesList }) => {
   return (
-    <div>
-      <h3>Tipos de ocorrência</h3>
-      {occurrenceTypes.map((item, index) => (
-        <Item key={index} item={item} reload={reload} />
-      ))}
-    </div>
+    <TableContainer>
+      <Table size="small" aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>
+              <strong>Nome</strong>
+            </TableCell>
+            <TableCell align="right">&nbsp;</TableCell>
+            <TableCell align="right">&nbsp;</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {occurrenceTypes.map((item, index) => (
+            <Item
+              key={index}
+              item={item}
+              updateOccurrenceTypesList={updateOccurrenceTypesList}
+            />
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 

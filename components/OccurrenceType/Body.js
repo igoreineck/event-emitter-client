@@ -1,12 +1,11 @@
 import api from "../../services/api";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { Grid, Button } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import ItemList from "./ItemList";
+import OccurrenceTypeCreate from "./OccurrenceTypeCreate";
 
 const Body = () => {
   const [occurrenceTypes, setOcurrenceTypes] = useState([]);
-  const router = useRouter();
 
   useEffect(() => {
     fetchOccurrenceTypes();
@@ -14,7 +13,7 @@ const Body = () => {
 
   const fetchOccurrenceTypes = () => {
     api
-      .get("/ocurrence_types/")
+      .get("/occurrence_types/")
       .then((response) => {
         if (response.status === 200) {
           let items = response.data;
@@ -29,32 +28,24 @@ const Body = () => {
           setOcurrenceTypes(items);
         }
       })
-      .catch((err) => {
-        console.log(err);
-        alert("Deu ruim!");
-      });
+      .catch((err) => alert("Deu ruim!"));
   };
 
   return (
-    <Grid container>
-      <Grid item md={8}>
-        <Grid item md={12}>
-          <ItemList
-            occurrenceTypes={occurrenceTypes}
-            reload={fetchOccurrenceTypes}
-          />
-        </Grid>
+    <>
+      <div>
+        <OccurrenceTypeCreate
+          updateOccurrenceTypesList={fetchOccurrenceTypes}
+        />
+      </div>
+      <hr />
+      <Grid container>
+        <ItemList
+          occurrenceTypes={occurrenceTypes}
+          updateOccurrenceTypesList={fetchOccurrenceTypes}
+        />
       </Grid>
-      <Grid item md={4}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => router.push("/occurrence_types/create")}
-        >
-          Criar tipo de ocorrẽncia
-        </Button>
-      </Grid>
-    </Grid>
+    </>
   );
 };
 

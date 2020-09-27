@@ -5,10 +5,12 @@
   "scripts": {
     "dev": "next dev -p 8080",
     "build": "next build",
-    "start": "next start"
+    "start": "next start -p 8080",
+    "populate": "node ./scripts/generateOccurrences"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
+    "@material-ui/data-grid": "^4.0.0-alpha.6",
     "@material-ui/icons": "^4.9.1",
     "axios": "^0.20.0",
     "fontsource-roboto": "^3.0.3",

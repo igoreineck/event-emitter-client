@@ -25,10 +25,9 @@ const Header = () => {
                 Criar ocorrências
               </Button>
               <Button color="inherit" onClick={occurrenceTypesRoute}>
-                Tipos de ccorrências
+                Tipos de ocorrências
               </Button>
             </div>
-            <Button color="inherit">Login</Button>
           </div>
         </Container>
       </Toolbar>

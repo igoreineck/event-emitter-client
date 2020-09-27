@@ -1,62 +1,103 @@
 import { useState, useEffect } from "react";
-import { Grid, Typography } from "@material-ui/core";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
 import OccurrenceFilter from "./OccurrenceFilter";
+import OccurrenceItem from "./OccurrenceItem";
 import api from "../../services/api";
 import socket from "../../services/socket";
-import styles from "./OccurrenceListContainer.module.scss";
+
+const filterByOccurrenceTypeId = (occurrenceList, id) => {
+  return occurrenceList.filter((occurrence) => {
+    if (occurrence.occurrence_type_id == id) return occurrence;
+  });
+};
+
+const fetchOccurrences = async () => {
+  try {
+    const response = await api.get("/occurrences/");
+
+    if (response.status === 200) return response.data;
+  } catch (err) {
+    console.log(err);
+    alert("Ocorreu um erro");
+  }
+};
 
 const OccurrenceListContainer = () => {
   const [occurrences, setOccurrences] = useState([]);
-  const [occurrenceTypes, setOccurrenceTypes] = useState();
 
   useEffect(() => {
     registerToSocket();
-    fetchOccurrences();
+    updateOccurrences();
   }, []);
 
-  const registerToSocket = () => {
-    socket.on("occurrences", () => fetchOccurrences());
+  const registerToSocket = () =>
+    socket.on("occurrences", () => updateOccurrences());
+
+  const updateOccurrences = async () => {
+    const occurrencesList = await fetchOccurrences();
+    setOccurrences(occurrencesList);
   };
 
-  const fetchOccurrences = () => {
-    api
-      .get("/occurrences/")
-      .then((response) => {
-        if (response.status === 200) {
-          setOccurrences(response.data);
-        }
-      })
-      .catch((err) => alert("Deu ruim"));
-  };
+  const handleFilter = async (id) => {
+    const updatedOccurrences = await fetchOccurrences();
 
-  const addOccurrenceTypes = (occurrenceTypes) => {
-    setOccurrenceTypes(occurrenceTypes);
+    if (typeof id !== "undefined") {
+      const filteredOccurrences = filterByOccurrenceTypeId(
+        updatedOccurrences,
+        id
+      );
+      setOccurrences(filteredOccurrences);
+    } else {
+      setOccurrences(updatedOccurrences);
+    }
   };
 
   return (
     <>
-      <OccurrenceFilter
-        occurrenceTypes={occurrenceTypes}
-        addOccurrenceTypes={addOccurrenceTypes}
-      />
+      <OccurrenceFilter filter={handleFilter} />
+
+      <h3>Ocorrências</h3>
       <hr />
-      <Typography variant="h5">Ocorrências</Typography>
-      <div className={styles.occurrenceBody}>
-        <Grid container>
-          {occurrences &&
-            occurrences.map((occurrence, index) => (
-              <Grid key={index} item md={3}>
-                <div className={styles.occurrence}>
-                  <h3>{occurrence.name}</h3>
-                  <p>{occurrence.description}</p>
-                  <p>
-                    <small>{occurrence.address}</small>
-                  </p>
-                </div>
-              </Grid>
+      <TableContainer>
+        <Table aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell></TableCell>
+              <TableCell>
+                <strong>Nome</strong>
+              </TableCell>
+              <TableCell>
+                <strong>Descrição</strong>
+              </TableCell>
+              <TableCell>
+                <strong>CEP</strong>
+              </TableCell>
+              <TableCell>
+                <strong>Endereço</strong>
+              </TableCell>
+              <TableCell>
+                <strong>Data de Início</strong>
+              </TableCell>
+              <TableCell>
+                <strong>Data de Término</strong>
+              </TableCell>
+              <TableCell>
+                <strong>Tipo de Ocorrência</strong>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {occurrences.map((occurrence, index) => (
+              <OccurrenceItem key={index} item={occurrence} />
             ))}
-        </Grid>
-      </div>
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
   );
 };

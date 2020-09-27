@@ -5,62 +5,56 @@ import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import api from "../../services/api";
+import style from "./OccurrenceFilter.module.scss";
 
-const OccurrenceFilter = ({ occurrenceTypes, addOccurrenceTypes }) => {
-  const [filteredOccurrenceType, setFilteredOccurrenceType] = useState();
+const OccurrenceFilter = ({ filter }) => {
   const [occurrenceTypesList, setOccurrenceTypesList] = useState([]);
+  const [selectedOccurrenceType, setSelectedOccurrenceType] = useState();
 
   useEffect(() => {
     fetchOccurrenceTypes();
   }, []);
 
-  const fetchOccurrenceTypes = () => {
-    api
-      .get("/occurrence_types")
-      .then((response) => {
-        if (response.status === 200) {
-          setOccurrenceTypesList(response.data);
-        }
-      })
-      .catch((err) => alert("deu ruim"));
+  const fetchOccurrenceTypes = async () => {
+    try {
+      const response = await api.get("/occurrence_types");
+
+      if (response.status === 200) setOccurrenceTypesList(response.data);
+    } catch (err) {
+      console.log(err);
+      alert("Ocorreu um erro");
+    }
   };
 
   return (
-    <>
+    <div className={style.filterComponent}>
       <Grid container justify="center" alignItems="center">
         <Grid item md={4}>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
+          <FormControl variant="outlined" style={{ width: "100%" }}>
+            <InputLabel id="demo-simple-select-outlined-label">
+              Tipo de ocorrência
+            </InputLabel>
+            <Select
+              label="Tipo de ocorrência"
+              value={selectedOccurrenceType ? selectedOccurrenceType : ""}
+              onChange={(e) => {
+                const occurrenceTypeId = e.target.value;
 
-              addOccurrenceTypes(filteredOccurrenceType);
-            }}
-          >
-            <FormControl variant="outlined" style={{ width: "100%" }}>
-              <InputLabel id="demo-simple-select-outlined-label">
-                Tipo de ocorrência
-              </InputLabel>
-              <Select
-                label="Tipo de ocorrência"
-                onChange={(e) => setFilteredOccurrenceType(e.target.value)}
-              >
-                <MenuItem>Selecionar</MenuItem>
-                {occurrenceTypesList &&
-                  occurrenceTypesList.map((item, index) => (
-                    <MenuItem key={index} value={item.id}>
-                      {item.name}
-                    </MenuItem>
-                  ))}
-              </Select>
-            </FormControl>
-            <Button type="submit">Adicionar</Button>
-          </form>
+                setSelectedOccurrenceType(occurrenceTypeId);
+                filter(occurrenceTypeId);
+              }}
+            >
+              <MenuItem>Selecionar</MenuItem>
+              {occurrenceTypesList.map((item, index) => (
+                <MenuItem key={index} value={item.id}>
+                  {item.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </Grid>
       </Grid>
-      <Grid container>
-        <div>{occurrenceTypes}</div>
-      </Grid>
-    </>
+    </div>
   );
 };
 

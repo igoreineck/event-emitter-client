@@ -21,15 +21,26 @@ const OccurrenceCreation = () => {
     fetchOccurrenceTypes();
   }, []);
 
-  const fetchOccurrenceTypes = () => {
-    api
-      .get("/occurrence_types")
-      .then((response) => {
-        if (response.status === 200) {
-          setOccurrenceTypes(response.data);
-        }
-      })
-      .catch((err) => alert("deu ruim"));
+  const fetchOccurrenceTypes = async () => {
+    try {
+      const response = await api.get("/occurrence_types");
+
+      if (response.status === 200) setOccurrenceTypes(response.data);
+    } catch (err) {
+      alert("Ocorreu um erro");
+      console.log(err);
+    }
+  };
+
+  const registerOccurrence = async (occurrence) => {
+    try {
+      const response = await api.post("/occurrences", occurrence);
+
+      if (response.status === 201) alert("A ocorrência foi criada com sucesso");
+    } catch (err) {
+      alert("Ocorreu um erro");
+      console.log(err);
+    }
   };
 
   return (
@@ -41,6 +52,18 @@ const OccurrenceCreation = () => {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
+
+                const occurrence = {
+                  name: name,
+                  description: description,
+                  cep: cep,
+                  address: address,
+                  start_date: startDate,
+                  end_date: endEate,
+                  occurrence_type_id: chosenOccurrenceTypeId,
+                };
+
+                registerOccurrence(occurrence);
               }}
             >
               <TextField
@@ -81,20 +104,24 @@ const OccurrenceCreation = () => {
               />
               <TextField
                 name="start_date"
+                type="datetime-local"
                 label="Data de início"
                 variant="outlined"
                 margin="normal"
                 fullWidth
+                InputLabelProps={{ shrink: true }}
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
               />
               <TextField
                 name="end_date"
+                type="datetime-local"
                 label="Data de fim"
                 variant="outlined"
                 margin="normal"
                 fullWidth
-                value={setEndDate}
+                InputLabelProps={{ shrink: true }}
+                value={endEate}
                 onChange={(e) => setEndDate(e.target.value)}
               />
               <FormControl variant="outlined" style={{ width: "100%" }}>

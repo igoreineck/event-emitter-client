@@ -12,9 +12,7 @@ const Item = ({ item, updateOccurrenceTypesList }) => {
         `/occurrence_types/${occurrenceTypeId}`
       );
 
-      if (response.status === 204) {
-        updateOccurrenceTypesList();
-      }
+      if (response.status === 204) updateOccurrenceTypesList();
     } catch (err) {
       alert(`DEU RUIM: ${err}`);
     }

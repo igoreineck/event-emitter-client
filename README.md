@@ -4,6 +4,9 @@ Para acessar o backend, você pode encontrá-lo através deste link: https://git
 
 Primeiramente, caso você ainda não possua o repositório deste projeto baixado, você pode fazer o download em: https://github.com/igoreineck/event-emitter-client.git
 
+### Pré-requisitos
+- NodeJS
+
 **OBS**: Este projeto foi desenvolvido totalmente em ambiente Linux. Portanto, é desejável que a sua execução também seja feita utilizando a mesma plataforma.
 
 Tendo isso, basta acessar o projeto e através de um terminal, execute:

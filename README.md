@@ -1,30 +1,37 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Frontend do projeto de Redes, chamado Emissor de Eventos
 
-## Getting Started
+Para acessar o backend, você pode encontrá-lo através deste link: https://github.com/igoreineck/event-emitter-server
 
-First, run the development server:
+Primeiramente, caso você ainda não possua o repositório deste projeto baixado, você pode fazer o download em: https://github.com/igoreineck/event-emitter-client.git
 
+**OBS**: Este projeto foi desenvolvido totalmente em ambiente Linux. Portanto, é desejável que a sua execução também seja feita utilizando a mesma plataforma.
+
+Tendo isso, basta acessar o projeto e através de um terminal, execute:
 ```bash
-npm run dev
-# or
-yarn dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Este comando irá baixar todas as dependências necessárias para executar a aplicação.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+### Configurações
 
-## Learn More
+Será necessário, definir o endereço **IP** e a **porta** nas quais o `backend` está sendo executado. É importante lembrar que para executar esta aplicação, é necessário ter o backend ativo.
 
-To learn more about Next.js, take a look at the following resources:
+Para definir estas informações, acesse o arquivo `next.config.example.js` adicione as configurações mencionadas e então, altere o nome do arquivo para `next.config.js`. **OBS**: removendo somente o **example** do nome do arquivo.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Executando
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Para melhorar a execução da aplicação, é interessante fazer um build antes de executá-la. Para fazer o build em um terminal, execute:
+```bash
+npm run build
+```
 
-## Deploy on Vercel
+E por fim, para rodar a aplicação também execute em um terminal:
+```bash
+npm start
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+**OBS**: Eventualmente, caso o build por algum motivo não funcione, é possível executar a aplicação em modo de desenvolvimento. Basta rodar o comando:
+```bash
+npm run dev
+```
